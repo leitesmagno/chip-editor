@@ -9,7 +9,8 @@ FONT=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
 TEXTO='@eumagnoleite'
 # Velocidades em pixels por segundo (diferentes para não repetir o trajeto)
 VX=${VX:-70}; VY=${VY:-50}
-ffmpeg -y -i "$IN" -vf "drawtext=fontfile=${FONT}:text='${TEXTO}':fontcolor=white@0.14:fontsize=h/22:\
+TAM=${TAM:-36}  # tamanho: altura do vídeo dividida por TAM (maior = marca menor)
+ffmpeg -y -i "$IN" -vf "drawtext=fontfile=${FONT}:text='${TEXTO}':fontcolor=white@0.14:fontsize=h/${TAM}:\
 x='abs(mod(t*${VX}\,2*(w-tw))-(w-tw))':y='abs(mod(t*${VY}\,2*(h-th))-(h-th))'" \
   -c:v libx264 -preset medium -crf 18 -pix_fmt yuv420p -c:a copy -movflags +faststart "$OUT"
 echo "Pronto: $OUT"
